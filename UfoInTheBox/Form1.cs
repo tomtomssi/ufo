@@ -17,6 +17,7 @@ namespace UfoInTheBox
         bool flag = false;
         Graphics g;
 
+        //Delegaatin luonti
         private delegate void SetBackgroundPosition(int x, int y, int bgNum);
        
         public Form1()
@@ -27,6 +28,8 @@ namespace UfoInTheBox
             bg.Start();
         }
 
+        //Delegaatin funktio valitsee bgNum:n perusteella sen, liikutetaanko ensimmäistä vai toista taustakuvaa
+        //1 = background, 2 = bg2
         public void SetBackgroundPositionDelegate(int x, int y, int bgNum)
         {
             switch (bgNum)
@@ -43,38 +46,39 @@ namespace UfoInTheBox
             
         }
 
+        //Liikkuvan taustan proseduuri
         public void bgProcedure()
         {
-
             while (!flag)
             {
-
                 const int MOVE_BG_X = 1;
                 SetBackgroundPosition m = SetBackgroundPositionDelegate;
+                //Ensimmäisen taustakuvan X-koordinaatti
                 int BG1currentLocation = background.Location.X;
-
-                if (BG1currentLocation == 0)
-                {
-                    m.Invoke(799, 25,2);
-                }
-
-                m.Invoke(BG1currentLocation - MOVE_BG_X, background.Location.Y, 1);
-
+                //Ensimmäisen taustakuvan X-koordinaatti
                 int BG2currentLocation = bg2.Location.X;
 
+                /* Kun ensimmäisen taustakuvan X-koordinaatti on 0, asetetaan taustakuva 2 sen jatkeeksi */
+                if (BG1currentLocation == 0)
+                {
+                    m.Invoke(799, 25, 2);
+                }
+
+                //Liikutetaan ensimmäistä taustakuvaa vasemmalle
+                m.Invoke(BG1currentLocation - MOVE_BG_X, background.Location.Y, 1);
+
+                /* Kun toisen taustakuvan X-koordinaatti on 0, asetetaan taustakuva 1 sen jatkeeksi */
                 if (BG2currentLocation == 0)
                 {
                     m.Invoke(780, 25,1);
                 }
+
+                //Liikutetaan toista taustakuvaa vasemmalle
                 m.Invoke(BG2currentLocation - MOVE_BG_X, bg2.Location.Y,2);
 
                 Thread.Sleep(10);
             }
         }
-
-        
-
-        
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
@@ -87,6 +91,7 @@ namespace UfoInTheBox
             }
         }
 
+        //Threadien keskeytykset ja sovelluksen sulkeminen
         #region Exits and stops
         private void stopToolStripMenuItem_Click(object sender, EventArgs e)
         {
