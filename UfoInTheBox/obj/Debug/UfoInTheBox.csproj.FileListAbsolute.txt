@@ -1,0 +1,9 @@
+c:\users\tatu\documents\visual studio 2012\Projects\UfoInTheBox\UfoInTheBox\bin\Debug\UfoInTheBox.exe.config
+C:\Users\Tatu\Documents\Visual Studio 2012\Projects\UfoInTheBox\UfoInTheBox\bin\Debug\UfoInTheBox.exe
+C:\Users\Tatu\Documents\Visual Studio 2012\Projects\UfoInTheBox\UfoInTheBox\bin\Debug\UfoInTheBox.pdb
+C:\Users\Tatu\Documents\Visual Studio 2012\Projects\UfoInTheBox\UfoInTheBox\obj\Debug\UfoInTheBox.csprojResolveAssemblyReference.cache
+C:\Users\Tatu\Documents\Visual Studio 2012\Projects\UfoInTheBox\UfoInTheBox\obj\Debug\UfoInTheBox.Form1.resources
+C:\Users\Tatu\Documents\Visual Studio 2012\Projects\UfoInTheBox\UfoInTheBox\obj\Debug\UfoInTheBox.Properties.Resources.resources
+C:\Users\Tatu\Documents\Visual Studio 2012\Projects\UfoInTheBox\UfoInTheBox\obj\Debug\UfoInTheBox.csproj.GenerateResource.Cache
+C:\Users\Tatu\Documents\Visual Studio 2012\Projects\UfoInTheBox\UfoInTheBox\obj\Debug\UfoInTheBox.exe
+C:\Users\Tatu\Documents\Visual Studio 2012\Projects\UfoInTheBox\UfoInTheBox\obj\Debug\UfoInTheBox.pdb
