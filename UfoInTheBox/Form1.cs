@@ -26,6 +26,8 @@ namespace UfoInTheBox
             InitializeComponent();
             screenWidth = ClientSize.Width;
             this.background.Location = new System.Drawing.Point(0, MENU_STRIP_HEIGHT);
+            this.ufoBox.Location = new Point(0, MENU_STRIP_HEIGHT);
+            this.ufoBox.Size = new Size(ClientSize.Width, ClientSize.Height);
             bg = new Thread(new ThreadStart(bgProcedure));
             bg.IsBackground = false;
             bg.Start();

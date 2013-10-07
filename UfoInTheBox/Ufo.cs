@@ -7,11 +7,16 @@ using System.Threading.Tasks;
 
 namespace UfoInTheBox
 {
-    class Ufo : Form1
+    class Ufo
     {
         public Ufo()
         {
-            Graphics g = CreateGraphics();
+            
+        }
+
+        public void drawUfo()
+        {
+
         }
     }
 }

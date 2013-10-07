@@ -34,11 +34,11 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bg2 = new System.Windows.Forms.PictureBox();
             this.background = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.ufoBox = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bg2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.background)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ufoBox)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -94,16 +94,15 @@
             this.background.TabIndex = 1;
             this.background.TabStop = false;
             // 
-            // pictureBox1
+            // ufoBox
             // 
-            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox1.Location = new System.Drawing.Point(68, 134);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(100, 50);
-            this.pictureBox1.TabIndex = 3;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Visible = false;
-            this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
+            this.ufoBox.BackColor = System.Drawing.Color.Transparent;
+            this.ufoBox.Location = new System.Drawing.Point(0, 0);
+            this.ufoBox.Name = "ufoBox";
+            this.ufoBox.Size = new System.Drawing.Size(0, 0);
+            this.ufoBox.TabIndex = 3;
+            this.ufoBox.TabStop = false;
+            this.ufoBox.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
             // 
             // Form1
             // 
@@ -111,7 +110,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
             this.ClientSize = new System.Drawing.Size(799, 624);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.ufoBox);
             this.Controls.Add(this.bg2);
             this.Controls.Add(this.background);
             this.Controls.Add(this.menuStrip1);
@@ -125,7 +124,7 @@
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bg2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.background)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ufoBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -139,7 +138,7 @@
         private System.Windows.Forms.ToolStripMenuItem stopToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.PictureBox bg2;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox ufoBox;
     }
 }
 
