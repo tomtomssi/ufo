@@ -116,7 +116,6 @@ namespace UfoInTheBox
             {
                 SetBackgroundPosition d = new SetBackgroundPosition(moveBg);
                 this.Invoke(d, new object[] { positionX, bgNum, positionY });
-
             }
             else
             {
