@@ -42,7 +42,6 @@ namespace UfoInTheBox
         /// <param name="bgNum">1 = background, 2 = bg2</param>
         public void SetBackgroundPositionDelegate(int x, int y, int bgNum)
         {
-            
             switch (bgNum)
             {
                 case 1:
@@ -63,30 +62,29 @@ namespace UfoInTheBox
             while (!flag)
             {
                 const int MOVE_BG_X = 1;
-                SetBackgroundPosition m = SetBackgroundPositionDelegate;
                 //Ensimmäisen taustakuvan X-koordinaatti
                 int BG1currentLocation = background.Location.X;
 
                 /* Kun ensimmäisen taustakuvan X-koordinaatti on 0, asetetaan taustakuva 2 sen jatkeeksi */
                 if (BG1currentLocation == 0)
                 {
-                    m.Invoke(bg2.Location.X - MOVE_BG_X, menuStripHeight, 2);
+                    moveBg(screenWidth, menuStripHeight, 2);
                 }
 
                 //Toisen taustakuvan X-koordinaatti
                 int BG2currentLocation = bg2.Location.X;
 
                 //Liikutetaan ensimmäistä taustakuvaa vasemmalle
-                m.Invoke(BG1currentLocation - MOVE_BG_X, background.Location.Y, 1);
+                moveBg(BG1currentLocation - MOVE_BG_X, background.Location.Y, 1);
 
                 /* Kun toisen taustakuvan X-koordinaatti on 0, asetetaan taustakuva 1 sen jatkeeksi */
                 if (BG2currentLocation == 0)
                 {
-                    m.Invoke(screenWidth, menuStripHeight, 1);
+                    moveBg(screenWidth, menuStripHeight, 1);
                 }
 
                 //Liikutetaan toista taustakuvaa vasemmalle
-                m.Invoke(BG2currentLocation - MOVE_BG_X, bg2.Location.Y,2);
+                moveBg(BG2currentLocation - MOVE_BG_X, bg2.Location.Y, 2);
 
                 Thread.Sleep(10);
             }
@@ -136,10 +134,24 @@ namespace UfoInTheBox
 
         private void moveBg(int positionX, int positionY, int bgNum)
         {
-            if (this.bg2.InvokeRequired)
+            if (this.bg2.InvokeRequired || this.background.InvokeRequired)
             {
                 SetBackgroundPosition d = new SetBackgroundPosition(moveBg);
                 this.Invoke(d, new object[] { positionX, positionY, bgNum });
+            }
+            else
+            {
+                switch (bgNum)
+                {
+                    case 1:
+                        this.background.Location = new Point(positionX, positionY);
+                        break;
+                    case 2:
+                        this.bg2.Location = new Point(positionX, positionY);
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
