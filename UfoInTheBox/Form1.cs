@@ -16,6 +16,7 @@ namespace UfoInTheBox
         Thread bg;
         bool flag = false;
         Graphics g;
+        int screenWidth, menuStripHeight;
 
         //Delegaatin luonti
         private delegate void SetBackgroundPosition(int x, int y, int bgNum);
@@ -23,6 +24,9 @@ namespace UfoInTheBox
         public Form1()
         {
             InitializeComponent();
+            screenWidth = ClientSize.Width;
+            menuStripHeight = menuStrip1.Height;
+            this.background.Location = new System.Drawing.Point(0, menuStripHeight);
             g = this.CreateGraphics();
             bg = new Thread(new ThreadStart(bgProcedure));
             bg.Start();
@@ -30,8 +34,15 @@ namespace UfoInTheBox
 
         //Delegaatin funktio valitsee bgNum:n perusteella sen, liikutetaanko ensimmäistä vai toista taustakuvaa
         //1 = background, 2 = bg2
+        /// <summary>
+        /// Funktio käsittelee liikkuvia taustakuvia
+        /// </summary>
+        /// <param name="x">Taustakuvan X-koordinaatti</param>
+        /// <param name="y">Taustakuvan Y-koordinaatti</param>
+        /// <param name="bgNum">1 = background, 2 = bg2</param>
         public void SetBackgroundPositionDelegate(int x, int y, int bgNum)
         {
+            
             switch (bgNum)
             {
                 case 1:
@@ -55,14 +66,15 @@ namespace UfoInTheBox
                 SetBackgroundPosition m = SetBackgroundPositionDelegate;
                 //Ensimmäisen taustakuvan X-koordinaatti
                 int BG1currentLocation = background.Location.X;
-                //Ensimmäisen taustakuvan X-koordinaatti
-                int BG2currentLocation = bg2.Location.X;
 
                 /* Kun ensimmäisen taustakuvan X-koordinaatti on 0, asetetaan taustakuva 2 sen jatkeeksi */
                 if (BG1currentLocation == 0)
                 {
-                    m.Invoke(799, 25, 2);
+                    m.Invoke(bg2.Location.X - MOVE_BG_X, menuStripHeight, 2);
                 }
+
+                //Toisen taustakuvan X-koordinaatti
+                int BG2currentLocation = bg2.Location.X;
 
                 //Liikutetaan ensimmäistä taustakuvaa vasemmalle
                 m.Invoke(BG1currentLocation - MOVE_BG_X, background.Location.Y, 1);
@@ -70,7 +82,7 @@ namespace UfoInTheBox
                 /* Kun toisen taustakuvan X-koordinaatti on 0, asetetaan taustakuva 1 sen jatkeeksi */
                 if (BG2currentLocation == 0)
                 {
-                    m.Invoke(780, 25,1);
+                    m.Invoke(screenWidth, menuStripHeight, 1);
                 }
 
                 //Liikutetaan toista taustakuvaa vasemmalle
@@ -120,6 +132,15 @@ namespace UfoInTheBox
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
             g.DrawImage(Properties.Resources.Ufo, 100, 100);
+        }
+
+        private void moveBg(int positionX, int positionY, int bgNum)
+        {
+            if (this.bg2.InvokeRequired)
+            {
+                SetBackgroundPosition d = new SetBackgroundPosition(moveBg);
+                this.Invoke(d, new object[] { positionX, positionY, bgNum });
+            }
         }
 
     }

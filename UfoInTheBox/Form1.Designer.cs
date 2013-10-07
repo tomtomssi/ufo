@@ -86,7 +86,6 @@
             // 
             this.background.BackColor = System.Drawing.SystemColors.InfoText;
             this.background.BackgroundImage = global::UfoInTheBox.Properties.Resources.BackgroundPart1;
-            this.background.Location = new System.Drawing.Point(0, 25);
             this.background.Name = "background";
             this.background.Size = new System.Drawing.Size(800, 600);
             this.background.TabIndex = 1;
