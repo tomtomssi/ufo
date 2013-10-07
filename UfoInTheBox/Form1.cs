@@ -15,7 +15,6 @@ namespace UfoInTheBox
     {
         Thread bg;
         bool flag = false;
-        Graphics g;
         int screenWidth;
         const int MENU_STRIP_HEIGHT = 25;
 
@@ -27,7 +26,6 @@ namespace UfoInTheBox
             InitializeComponent();
             screenWidth = ClientSize.Width;
             this.background.Location = new System.Drawing.Point(0, MENU_STRIP_HEIGHT);
-            g = this.CreateGraphics();
             bg = new Thread(new ThreadStart(bgProcedure));
             bg.IsBackground = false;
             bg.Start();
@@ -67,16 +65,6 @@ namespace UfoInTheBox
             }
         }
 
-        private void Form1_KeyDown(object sender, KeyEventArgs e)
-        {
-            switch (e.KeyCode)
-            {
-                case Keys.Up:
-
-                    break;
-            }
-        }
-
         //Threadien keskeytykset ja sovelluksen sulkeminen
         #region Exits and stops
         private void stopToolStripMenuItem_Click(object sender, EventArgs e)
@@ -104,11 +92,6 @@ namespace UfoInTheBox
         }
         #endregion
 
-        private void Form1_Paint(object sender, PaintEventArgs e)
-        {
-            g.DrawImage(Properties.Resources.Ufo, 100, 100);
-        }
-
         /* Funktio kutsuu bg-threadista main-threadin picturebox-kontrolleja background ja bg2 thread safesti*/
         private void moveBg(int positionX, int bgNum, int positionY = MENU_STRIP_HEIGHT)
         {
@@ -131,6 +114,11 @@ namespace UfoInTheBox
                         break;
                 }
             }
+        }
+
+        private void pictureBox1_Paint(object sender, PaintEventArgs e)
+        {
+            
         }
     }
 }
