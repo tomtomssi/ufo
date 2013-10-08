@@ -102,7 +102,6 @@
             this.ufoBox.Size = new System.Drawing.Size(0, 0);
             this.ufoBox.TabIndex = 3;
             this.ufoBox.TabStop = false;
-            this.ufoBox.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
             // 
             // Form1
             // 
@@ -120,6 +119,7 @@
             this.MinimumSize = new System.Drawing.Size(815, 662);
             this.Name = "Form1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bg2)).EndInit();

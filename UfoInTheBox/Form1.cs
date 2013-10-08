@@ -25,12 +25,24 @@ namespace UfoInTheBox
         {
             InitializeComponent();
             screenWidth = ClientSize.Width;
+            //Ensimmäisen taustakuvan alustus
             this.background.Location = new System.Drawing.Point(0, MENU_STRIP_HEIGHT);
-            this.ufoBox.Location = new Point(0, MENU_STRIP_HEIGHT);
-            this.ufoBox.Size = new Size(ClientSize.Width, ClientSize.Height);
+
+            //Ufon alustukset
+            ufoBox.Location = new Point(screenWidth / 2 - 31 - 17, (MENU_STRIP_HEIGHT + ClientSize.Height) / 2);
+            ufoBox.Size = new Size(31, 17);
+            ufoBox.BackgroundImage = Properties.Resources.Ufo;
+
+            this.DoubleBuffered = true;
+
             bg = new Thread(new ThreadStart(bgProcedure));
-            bg.IsBackground = false;
             bg.Start();
+        }
+
+        public Point UfoBox
+        {
+            get { return ufoBox.Location; }
+            set { ufoBox.Location = value; }
         }
 
         //Liikkuvan taustan proseduuri
@@ -118,9 +130,30 @@ namespace UfoInTheBox
             }
         }
 
-        private void pictureBox1_Paint(object sender, PaintEventArgs e)
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            
+            int moveUfo = 2;
+            int ufoLocationX = ufoBox.Location.X;
+            int ufoLocationY = ufoBox.Location.Y;
+
+            switch (e.KeyCode)
+            {
+                case Keys.Up:
+                    ufoBox.Location = new Point(ufoLocationX, ufoLocationY - moveUfo);
+                    break;
+                case Keys.Down:
+                    ufoBox.Location = new Point(ufoLocationX, ufoLocationY + moveUfo);
+                    break;
+                case Keys.Left:
+                    ufoBox.Location = new Point(ufoLocationX - moveUfo, ufoLocationY);
+                    break;
+                case Keys.Right:
+                    ufoBox.Location = new Point(ufoLocationX + moveUfo, ufoLocationY);
+                    break;
+                default:
+                    break;
+
+            }
         }
     }
 }
