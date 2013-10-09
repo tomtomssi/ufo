@@ -13,10 +13,13 @@ namespace UfoInTheBox
 {
     public partial class Form1 : Form
     {
-        Thread bg;
+        Thread bg, moveUfo;
         bool flag = false;
         int screenWidth;
         const int MENU_STRIP_HEIGHT = 25;
+        bool gameRunning = true;
+        const int MOVE_UFO = 2;
+        private List<Keys> isKeyDown = new List<Keys>();
 
         //Delegaatin luonti
         private delegate void SetBackgroundPosition(int x, int y, int bgNum);
@@ -37,6 +40,9 @@ namespace UfoInTheBox
 
             bg = new Thread(new ThreadStart(bgProcedure));
             bg.Start();
+
+            moveUfo = new Thread(new ThreadStart(move));
+            moveUfo.Start();
         }
 
         public Point UfoBox
@@ -44,7 +50,65 @@ namespace UfoInTheBox
             get { return ufoBox.Location; }
             set { ufoBox.Location = value; }
         }
+        //Taustasäie, joka hoitaa ufon liikutuksen ruudulla
+        #region Ufo Movement
+        //Lisätään listalle painettu näppäin. Jos listalla ei ole nappia, se lisätään siihen
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            Keys key = e.KeyCode;
+            if (!isKeyDown.Contains(key))
+            {
+                isKeyDown.Add(key);
+            }
+        }
+        //Näppäimen noustessa, poistetaan listalta nouseva näppäin
+        private void Form1_KeyUp(object sender, KeyEventArgs e)
+        {
+            Keys key = e.KeyCode;
+            if (isKeyDown.Contains(key))
+            {
+                isKeyDown.Remove(key);
+            }
+        }
+        //Invoke, jotta ufoa voidaan liikuttaa UI threadissa
+        void invoker(int movedY, int movedX)
+        {
+            Invoke((MethodInvoker)delegate
+            {
+                ufoBox.Location = new Point(
+                        ufoBox.Location.X + movedX,
+                        ufoBox.Location.Y + movedY);
+            });
+        }
+        //Ufon liikutus
+        private void move()
+        {
+            while (gameRunning)
+            {
+                if (isKeyDown.Contains(Keys.Down))
+                {
+                    invoker(MOVE_UFO, 0);
+                }
+                if (isKeyDown.Contains(Keys.Up))
+                {
+                    invoker(-MOVE_UFO, 0);
+                }
 
+                if (isKeyDown.Contains(Keys.Left))
+                {
+                    invoker(0, -MOVE_UFO);
+                }
+                if (isKeyDown.Contains(Keys.Right))
+                {
+                    invoker(0, MOVE_UFO);
+                }
+
+                Thread.Sleep(100);
+            }
+        }
+        #endregion
+        //Taustasäie, joka hoitaa taustakuvan liikutuksen
+        #region Background
         //Liikkuvan taustan proseduuri
         public void bgProcedure()
         {
@@ -78,34 +142,6 @@ namespace UfoInTheBox
                 Thread.Sleep(10);
             }
         }
-
-        //Threadien keskeytykset ja sovelluksen sulkeminen
-        #region Exits and stops
-        private void stopToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            flag = true;
-        }
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (!flag)
-            {
-                flag = true;
-            }
-            Thread.Sleep(100);
-            Application.Exit();
-        }
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (bg.IsAlive)
-            {
-                flag = true;
-                bg.Abort();
-                Thread.Sleep(100);
-            }
-            Application.Exit();
-        }
-        #endregion
-
         /* Funktio kutsuu bg-threadista main-threadin picturebox-kontrolleja background ja bg2 thread safesti*/
         private void moveBg(int positionX, int bgNum, int positionY = MENU_STRIP_HEIGHT)
         {
@@ -129,30 +165,37 @@ namespace UfoInTheBox
                 }
             }
         }
-
-        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        #endregion
+        //Threadien keskeytykset ja sovelluksen sulkeminen
+        #region Exits and stops
+        private void stopToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            int moveUfo = 2;
-            int ufoLocationX = ufoBox.Location.X;
-            int ufoLocationY = ufoBox.Location.Y;
-
-            switch (e.KeyCode)
-            {
-                case Keys.Up:
-                    ufoBox.Location = new Point(ufoLocationX, ufoLocationY - moveUfo);
-                    break;
-                case Keys.Down:
-                    ufoBox.Location = new Point(ufoLocationX, ufoLocationY + moveUfo);
-                    break;
-                case Keys.Left:
-                    ufoBox.Location = new Point(ufoLocationX - moveUfo, ufoLocationY);
-                    break;
-                case Keys.Right:
-                    ufoBox.Location = new Point(ufoLocationX + moveUfo, ufoLocationY);
-                    break;
-                default:
-                    break;
-            }
+            flag = true;
+            gameRunning = false;
         }
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!flag || gameRunning)
+            {
+                gameRunning = false;
+                flag = true;
+            }
+            Thread.Sleep(100);
+            Application.Exit();
+        }
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (bg.IsAlive)
+            {
+                flag = true;
+                bg.Abort();
+                Thread.Sleep(100);
+            }
+            gameRunning = false;
+            Application.Exit();
+        }
+        #endregion
+
+ 
     }
 }
