@@ -152,7 +152,6 @@ namespace UfoInTheBox
                     break;
                 default:
                     break;
-
             }
         }
     }
